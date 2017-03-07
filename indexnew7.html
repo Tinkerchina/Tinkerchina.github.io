@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <title>丽人</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+        <!-- <div id="image">
+        </div> -->
+        <input style="width:100px;height:100px" id="tongdun" name='124' type='button' onclick='' value='同盾'/>
+        <div id="tongdundiv">
+        </div>
+        <input style="width:100px;height:100px" id="setBackButtonIntercept" name='99' type='button' onclick='' value='添加左侧按钮拦截'/>
+        <input style="width:100px;height:100px" id="addLeftCloseButton" name='90' type='button' onclick='' value='添加左侧关闭按钮'/>
+        <input style="width:100px;height:100px" id="newweb" name='101' type='button' onclick='' value='新网页'/>
+        <input style="width:100px;height:100px" id="addRightButton" name='109' type='button' onclick='' value='添加右侧按钮'/>
+        <input style="width:100px;height:100px" id="backBtn" name='110' type='button' onclick='' value='返回'/>
+        <input style="width:100px;height:100px" id="backToWeb" name='111' type='button' onclick='' value='返回弹出新页'/>
+        <input style="width:100px;height:100px" id="saveData" name='112' type='button' onclick='' value='保存数据'/>
+        <input style="width:100px;height:100px" id="getData" name='113' type='button' onclick='' value='提取数据'/>
+        <input style="width:100px;height:100px" id="fetchData" name='114' type='button' onclick='' value='网络请求'/>
+        <input style="width:100px;height:100px" id="logData" name='115' type='button' onclick='' value='统计功能'/>
+        <input style="width:100px;height:100px" id="setTitle" name='116' type='button' onclick='' value='设置标题'/>
+        <input style="width:100px;height:100px" id="share" name='117' type='button' onclick='' value='分享功能'/>
+        <input style="width:100px;height:100px" id="openurl" name='117' type='button' onclick='' value='wise吊起'/>
+        <input style="width:100px;height:100px" id="openurl_inapp" name='118' type='button' onclick='' value='wise2吊起'/>
+        <input style="width:100px;height:100px" id="openurl_check" name='119' type='button' onclick='' value='wise2CheckVC'/>
+        <input style="width:100px;height:100px" id="openurl_pop" name='120' type='button' onclick='' value='wise2popRoot'/>
+        <input style="width:100px;height:100px" id="setlocation" name='121' type='button' onclick='' value='位置插件'/>
+        <input style="width:100px;height:100px" id="loadmoreDisable" name='121' type='button' onclick='' value='loadmoreDisable'/>
+      
+        <input style="width:100px;height:100px" id="guesturebackEnable" name='122' type='button' onclick='' value='guesturebackEnable'/>
+        <input style="width:100px;height:100px" id="guesturebackDisable" name='123' type='button' onclick='' value='guesturebackDisable'/>
+        <script type="text/javascript">
+        function backButtonClicked(){
+                        window.location = "daojia://finish";
+                       // return false;
+                       //业务逻辑
+                       // var u = navigator.userAgent;
+                       // var nativeControl = true;
+                       // if(history.length > 1 && document.referrer.length > 0 ){
+                       //    nativeControl = false;
+                       // }
+                       // if (u.indexOf('Android') > 0 ){
+                       //    if(nativeControl){
+                       //       window.daojia.js_back_result(false);//使用app goBack
+                       //    }else{
+                       //      window.daojia.js_back_result(true);
+                       //      history.go(-1);//屏蔽app goback
+                       //   }
+                       // }else {
+                       //  if(nativeControl){
+                       //    return false;//使用 app goback
+                       //  }else{
+                       //    history.go(-1);
+                       //    return true;//屏蔽app goback
+                       //  }
+                       // }
+                  }
+
+    //     function titleForRightButton() {
+    //     var name = "shareimage";
+    //     var u = navigator.userAgent;
+    //     //业务逻辑
+    //     if (u.indexOf('Android') > 0) {
+    //         window.daojia.rightButtonTitle(name);
+    //     } else {
+    //         return name;
+    //     }
+    // }
+
+        //判断useragent 动态引入js
+        var userAgent = navigator.userAgent;
+        var cookiestr = document.cookie ;
+
+        //alert(cookiestr);
+       if(userAgent.indexOf('cdvsupport') >= 0||cookiestr.indexOf('cdvsupport') >= 0){
+           document.write("<script type='text/javascript' src='nacodovafile/js/cordova.js#nacodovafile'><\/script>");
+           document.write("<script type='text/javascript' src='nacodovafile/js/cdplugins.js#nacodovafile'><\/script>"); 
+          // document.write("<script type='text/javascript' src='test.js#djlocalcache_1.1.1'><\/script>");
+       }
+        //事件
+        //左侧关闭按钮点击 可选监听(若要使用插件设置返回按钮旁边的关闭按钮 需监听)
+        document.addEventListener("onsecondleftbuttonclick", onsecondleftbuttonclick, false);
+        function onsecondleftbuttonclick(data)
+        {
+            alert('关闭按钮点击');
+        }
+        document.addEventListener("ondragrefresh_start", ondragrefresh_start, false);
+        function refreshFinish(){
+           CD58UtilsPlugin.util("dragrefresh_finish");
+           alert('刷新完成');
+
+        }
+
+        document.addEventListener("ondragloadmore_start", ondragloadmore_start, false);
+        function loadmoreFinish(){
+           CD58UtilsPlugin.util("dragloadmore_finish");
+           alert('加载更多完成');
+
+        }
+
+        function ondragloadmore_start(data)
+        {
+           alert('加载更多开始');
+           setTimeout("loadmoreFinish()",5000); 
+        }
+
+        function ondragrefresh_start(data)
+        {
+           alert('刷新开始');
+           setTimeout("refreshFinish()",5000); 
+        }
+
+        //返回按钮点击 可选监听(若要使用插件设置返回按钮拦截 需监听)
+        document.addEventListener("onbackbuttonclick", onbackbuttonclick, false);
+        function onbackbuttonclick(data)
+        {
+          alert('onbackbuttonclick');
+          /*  CD58RouterPlugin.navigateBack({'a':'aaaaa','b':'bbbbbb'},function(data){
+                                          alert(data);
+                                          },function(data){
+                                           alert(data);
+                                          });
+                                          */
+        }
+        //再次返回本界面 可选监听
+        document.addEventListener("refresh", refresh, false);
+        function refresh(data)
+        {
+          
+          alert(JSON.stringify(data));
+          /*
+            var isjson = typeof(data) == "object" && Object.prototype.toString.call(data).toLowerCase() == "[object object]" && !data.length;
+                                  if(isjson){
+                                  alert('refresh:'+JSON.stringify(data));
+                                  }else{
+                                  alert('refresh:'+JSON.stringify(data));
+                                  }
+          */
+          
+          
+        }
+        //右侧按钮点击 可选监听(若要使用插件设置右侧按钮 需监听)
+        document.addEventListener("onrightbuttonclick", onrightbuttonclick, false);
+        function onrightbuttonclick(data)
+        {
+
+           // alert(JSON.stringify(abdata));
+           if(data.title == 'shareimage'){
+                sharecall();
+
+           }else{
+            alert('onrightbuttonclick:'+data.title);
+          }
+/*
+         alert('onrightbuttonclick');
+          
+            var jsonStr = JSON.stringify(data);
+            var isjson = typeof(data) == "object" && Object.prototype.toString.call(data).toLowerCase() == "[object object]" && !data.length;
+                                  if(isjson){
+                                     alert('onrightbuttonclick:'+jsonStr);
+                                  }else{
+                          
+                                  }*/
+
+                                  
+
+          
+        }
+
+        var xhr=" ";
+        function ajaxSend(){
+
+           try{
+               xhr=new XMLHttpRequest();
+          }
+          catch(err){
+               alert(err);
+          }
+          
+          xhr.open('GET','http://passportweb-beta.djcorp.cn/thirdoauth/update3baseinfo/friendstate?state=0',false);
+          xhr.onreadystatechange = function(){
+               if(xhr.readyState == 4) {
+                    if(xhr.status == 200) {
+                         
+                    }
+               }     
+          };
+           xhr.withCredentials = true;
+          xhr.send();
+
+        }
+        //如果使用cordova机制 需收到这个消息后再调用插件
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady(data) {
+          
+          //ajaxSend();
+           //CD58UtilsPlugin.setBackButtonIntercept({});
+           CD58UtilsPlugin.setRightButtons({'rightbuttons':[{'title':'toolsimage','tag':'share','color':'#00ff00'}]});
+           CD58UtilsPlugin.util("dragrefresh_enable",{"mod":"2"});
+           CD58UtilsPlugin.util("dragloadmore_enable");
+
+          //alert('deviceready'+JSON.stringify(data));
+        //  CD58UtilsPlugin.setSecondLeftButton({'title':'测试','color':'#00ff00'});
+        alert('onDeviceReady');
+          if(window.location.href.indexOf('mytest')==-1){
+            //  window.location.replace("http://www.baidu.com");//= "#mytest";
+          }
+          
+        }
+
+
+
+        //主动请求类型的插件
+        var setBackButtonIntercept = document.getElementById("setBackButtonIntercept");
+        setBackButtonIntercept.onclick = function(){
+            CD58UtilsPlugin.setBackButtonIntercept({});
+        }
+        
+        var addLeftCloseButton = document.getElementById("addLeftCloseButton");
+        addLeftCloseButton.onclick = function(){
+            CD58UtilsPlugin.setSecondLeftButton({});
+        }
+
+         var setTitle = document.getElementById("setTitle");
+        setTitle.onclick = function(){
+            CD58UtilsPlugin.setTitle('发动机舱维护好好');
+        }
+         var logData = document.getElementById("logData");
+        logData.onclick = function(){
+            CD58LogPlugin.logEvent('testkey',{'category':'1'},null,null);
+        }
+
+         var saveData = document.getElementById("saveData");
+        saveData.onclick = function(){
+            CD58CachePlugin.saveData('testnow','ttt',null,null);
+        }
+        var getData = document.getElementById("getData");
+        getData.onclick = function(){
+            CD58CachePlugin.getData('testnow',function(data){ alert(data); },function(data){ alert(JSON.stringify(data)); });
+        }
+
+        var fetchData = document.getElementById("fetchData");
+        fetchData.onclick = function(){
+            CD58LoaderPlugin.fetchData('post','https://www.jzt32.58.com/api/guest/homepagerecommend',{'test':{'aaa':'bbbbbbb'}},function(data){ alert(JSON.stringify(data)); },function(data){ alert(JSON.stringify(data)); });
+        }
+
+
+        var newwebbutton = document.getElementById("tongdun");
+        var tongdundiv = document.getElementById("tongdundiv");
+        newwebbutton.onclick = function(){
+
+          CD58UtilsPlugin.util("OpenAddressBook",{},function(data){
+            //success
+            alert("success");
+            var str = JSON.stringify(data);
+            tongdundiv.innerHTML = str;
+
+            
+
+          },function(data){
+            //failed
+
+            alert("failed");
+            var str = JSON.stringify(data);
+            tongdundiv.innerHTML = str;
+
+
+          });
+        }
+
+        var newwebbutton = document.getElementById("newweb");
+        newwebbutton.onclick = function(){
+          //  CD58RouterPlugin.navigateToWebView('http://www.baidu.com?guestureback=false',{'style':'default','title':'测试的标题'});
+          window.location.href = "daojia://orderdetail?url=http://www.baidu.com";//"daojia://DJExchangeCard/jumpPage";
+          //  window.location.href = "http://www.baidu.com";
+        }
+          var openurl = document.getElementById("openurl");
+        openurl.onclick = function(){
+            //CD58RouterPlugin.backNavigateToWebView('indexnew7.html');
+            //window.location = "daojia://orderdetail?url=http%3a%2f%2fapi.keepercoating.com%2findex.php%3fg%3d58%26m%3dorder%26a%3ddetail%26corder_id%3d13936";
+            
+            window.location ="daojia5858568://detail/test/jumpPage?test=10&uid=%e6%88%91%e7%9a%84%e6%b5%8b%e8%af%95&type=0&myinterestif=true";
+        }
+         var openurl_inapp = document.getElementById("openurl_inapp");
+        openurl_inapp.onclick = function(){
+            //CD58RouterPlugin.backNavigateToWebView('indexnew7.html');
+             window.location ="daojia://detail/test/jumpPage?test=10&uid=%e6%88%91%e7%9a%84%e6%b5%8b%e8%af%95&type=0&myinterestif=true";
+        }
+
+        var openurl_check = document.getElementById("openurl_check");
+        openurl_check.onclick = function(){
+            //CD58RouterPlugin.backNavigateToWebView('indexnew7.html');
+             window.location ="daojia5858568://detail/test/jumpPage?test=10&uid=%e6%88%91%e7%9a%84%e6%b5%8b%e8%af%95&type=0&myinterestif=true&iosCkV=true";
+        }
+
+
+  var openurl_pop = document.getElementById("openurl_pop");
+        openurl_pop.onclick = function(){
+            //CD58RouterPlugin.backNavigateToWebView('indexnew7.html');
+             window.location ="daojia5858568://detail/test/jumpPage?test=10&uid=%e6%88%91%e7%9a%84%e6%b5%8b%e8%af%95&type=0&myinterestif=true&iosPopR=true";
+        }
+
+        var backToWeb = document.getElementById("backToWeb");
+        backToWeb.onclick = function(){
+            CD58RouterPlugin.backNavigateToWebView('indexnew7.html');
+        }
+        var rightbutton = document.getElementById("addRightButton");
+        rightbutton.onclick = function(){
+            CD58UtilsPlugin.setRightButtons({'rightbuttons':[{'title':'shareimage','tag':'test1'},{'title':'toolsimage','color':'#00ff00','tag':'test2'}]},function(data){
+                                             
+                                            
+
+                                             
+                                             
+                                             },function(data){
+                                             
+                                           
+                                             
+                                             
+                                             });
+            
+        }
+
+        var setlocation = document.getElementById("setlocation");
+        setlocation.onclick = function(){
+           CD58UtilsPlugin.util("setLocationText",{"location":"大羊坊路10号桑普大厦"});
+        }
+
+var loadmoreDisable = document.getElementById("loadmoreDisable");
+        loadmoreDisable.onclick = function(){
+           CD58UtilsPlugin.util("dragloadmore_disable");
+        }
+var guesturebackEnable = document.getElementById("guesturebackEnable");
+        guesturebackEnable.onclick = function(){
+           CD58UtilsPlugin.util("guestureback",{"enable":true});
+        }
+var guesturebackDisable = document.getElementById("guesturebackDisable");
+        guesturebackDisable.onclick = function(){
+            CD58UtilsPlugin.util("guestureback",{"enable":false},function(data){},function(data){});
+        }
+
+
+        var backBtn = document.getElementById("backBtn");
+        backBtn.onclick = function(){
+            CD58RouterPlugin.navigateBack({'a':'aaaaa','b':'bbbbbb'},function(data){
+                                 
+                                  var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+                                  if(isjson){
+                                  alert(JSON.stringify(data));
+                                  }else{
+                                  alert(JSON.stringify(data));
+                                  }
+                                  
+                                  },function(data){
+                                 
+                                  var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+                                  if(isjson){
+                                  alert(JSON.stringify(data));
+                                  }else{
+                                  alert(JSON.stringify(data));
+                                  }
+                                  
+                                  });
+            
+        }
+
+     
+       
+        var sharecall = function(){
+           var sharedata ={
+"title":"分享", 
+"content":"分享成功赢抽奖",
+"mediaType":"link",
+"logkey":"liren",
+"panels":[
+{
+"panelKey":"weixin_friends",
+"panelData":{
+"linkUrl":"https://daojia.com",
+"iconUrl":"https://static.daojia.com/fe/public/banner/20151106jjpr710x220.jpg",
+"title":"发现了好东西",
+"content":"好东西的东西的内容"
+}
+},
+{"panelKey":"weixin_chat",
+"panelData":{
+"linkUrl": "https://daojia.com",
+"iconUrl":"https://static.daojia.com/fe/public/banner/20151106jjpr710x220.jpg",
+"title":"发现了好东西",
+"content":"好东西的东西的内容"
+}
+},{
+"panelKey":"sinaweibo",
+"panelData":{
+"linkUrl": "https://daojia.com",
+"iconUrl":"https://static.daojia.com/fe/public/banner/20151106jjpr710x220.jpg",
+"title":"发现了好东西",
+"content":"好东西的东西的内容"
+}
+},{"panelKey":"share_qrcode",
+"panelData":{
+"modKey":"modrepairsimple",
+"modData":{
+"linkUrl":"https://daojia.com",
+"imageUrl": "https://app.xiujiadian.com/third/58daojia/images/banner-index.jpg",
+"title":"手部护理SPA（含御甲）",
+"contentData":[{
+"title":"服务价格",
+"content":["单开门冰箱价格170元","单开门冰箱价格170元"]
+},{"title":"服务价格",
+"content":["单开门冰箱价格170元","单开门冰箱价格170元"]}
+],
+"price":"¥200",
+"qrDesc": "识别二维码查看详情",
+"iconURL": ""
+},
+"panels":[{
+"panelKey":"weixin_friends",
+"panelData":{
+"linkUrl": "https://daojia.com"
+}},{
+"panelKey":"weixin_chat",
+"panelData":{
+"linkUrl": "https://daojia.com"
+}},{
+"panelKey":"sinaweibo",
+"panelData":{
+"linkUrl": "https://daojia.com"
+}},{
+"panelKey":"save_photo",
+"panelData":{
+"linkUrl": "https://daojia.com"
+}}]
+}
+},{"panelKey":"copylink",
+"panelData":{
+"linkUrl": "https://daojia.com"
+}
+}]
+};
+
+
+            CD58UtilsPlugin.util("sharefunction",sharedata,function(data){
+                                 
+                                  var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+                                  if(isjson){
+                                   // alert(JSON.stringify(data));
+                                  }else{
+                                    //alert(JSON.stringify(data));
+                                  }
+                                  
+                                  },function(data){
+                                 var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+                                  if(isjson){
+                                   //alert(JSON.stringify(data));
+                                  }else{
+                                    //alert(JSON.stringify(data));
+                                  }
+                                  });//navigateToWebView('index2.html',3);
+        }
+
+          var share = document.getElementById("share");
+        share.onclick = sharecall;
+        </script>
+    </body>
+</html>
